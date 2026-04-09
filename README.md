@@ -21,6 +21,9 @@ Projeto simples desenvolvido para estudo de Design Patterns, com foco em Abstrac
 symfony check:requirements
 ```
 ```bash
+composer update
+```
+```bash
 symfony serve
 ```
 
