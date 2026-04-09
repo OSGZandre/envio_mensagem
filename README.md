@@ -21,15 +21,6 @@ Projeto simples desenvolvido para estudo de Design Patterns, com foco em Abstrac
 symfony check:requirements
 ```
 ```bash
-composer create-project symfony/skeleton:"6.4.*" my_project_directory
-```
-```bash
-cd my_project_directory
-```
-```bash
-composer require webapp
-```
-```bash
 symfony serve
 ```
 
