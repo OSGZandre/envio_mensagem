@@ -8,15 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 class HomeController extends AbstractController
 {
-    #[Route('/enviomensagem', name: 'home')]
+    #[Route('/', name: 'home')]
     public function index(): Response
     {
         $data = 'Envio de Mensagem';
         return $this->render('home/index.html.twig', ['data' => $data]);
     }
+
 
     #[Route('/mensagem/{type}', name: 'escrever_mensagem')]
     public function mensagem($type)
