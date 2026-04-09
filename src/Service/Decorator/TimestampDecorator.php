@@ -1,7 +1,7 @@
 <?php
 namespace App\Service\Decorator;
 
-class LogDecorator extends MessageDecorator
+class TimestampDecorator extends MessageDecorator
 {
     public function setContent(string $content): self
     {
@@ -18,6 +18,7 @@ class LogDecorator extends MessageDecorator
     public function enviar(): string
     {
         $result = $this->message->enviar();
-        return $result . " [LOG: mensagem enviada]";
+        $timestamp = date('Y-m-d H:i:s');
+        return $result . " [DATA: " . $timestamp . "]";
     }
 }

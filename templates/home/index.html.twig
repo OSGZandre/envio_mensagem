@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ data }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card shadow-lg">
+					<div class="card-header bg-primary text-white">
+						<h1 class="mb-0">{{ data }}</h1>
+					</div>
+					<div class="card-body p-4">
+						<label for="messageType" class="form-label fw-bold mb-3">Selecione o tipo de mensagem:</label>
+						<select class="form-select form-select-lg" id="messageType" aria-label="Tipo de mensagem">
+							<option value="">Escolha uma opção</option>
+							<option value="email">Email</option>
+							<option value="sms">SMS</option>
+							<option value="whatsapp">WhatsApp</option>
+							<option value="telegram">Telegram</option>
+						</select>
+
+						<button class="btn btn-primary btn-lg w-100 mt-4" id="send">
+							<span class="spinner-border spinner-border-sm me-2 d-none" id="spinner" role="status" aria-hidden="true"></span>
+							Enviar Mensagem
+						</button>
+					</div>
+				</div>
+
+				<div class="alert alert-info mt-4" role="alert">
+					<strong>Dica:</strong> Cada tipo de mensagem tem características únicas. Escolha conforme sua necessidade de comunicação.
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const selectElement = document.getElementById('messageType');
+			const sendButton = document.getElementById('send');
+			const spinner = document.getElementById('spinner');
+
+			sendButton.addEventListener('click', function () {
+				const type = selectElement.value;
+
+				if (!type) {
+					alert('Por favor, selecione um tipo de mensagem!');
+					return;
+				}
+
+				spinner.classList.remove('d-none');
+				sendButton.disabled = true;
+
+				const url = "{{ path('escrever_mensagem', {'type': 'TYPE'}) }}".replace('TYPE', type);
+				console.log('Enviando para:', url);
+
+				setTimeout(() => {
+					window.location.href = url;
+				}, 500);
+			});
+			
+			selectElement.addEventListener('change', function () {
+				if (this.value) {
+					sendButton.classList.remove('btn-secondary');
+					sendButton.classList.add('btn-primary');
+				}
+			});
+		});
+	</script>
+{% endblock %}

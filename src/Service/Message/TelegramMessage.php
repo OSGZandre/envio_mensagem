@@ -1,25 +1,25 @@
 <?php
 namespace App\Service\Message;
 
-class SmsMessage implements MessageInterface
+class TelegramMessage implements MessageInterface
 {
-    private string $to = '';
-    private string $body = '';
+    private string $chatId = '';
+    private string $text = '';
 
     public function setRecipient(string $recipient): self
     {
-        $this->to = $recipient;
+        $this->chatId = $recipient;
         return $this;
     }
 
     public function setContent(string $content): self
     {
-        $this->body = $content;
+        $this->text = $content;
         return $this;
     }
 
     public function enviar(): string
     {
-        return "Enviando SMS para {$this->to} : {$this->body}";
+        return "Enviando Telegram para chat {$this->chatId}: {$this->text}";
     }
 }

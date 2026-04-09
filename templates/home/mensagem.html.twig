@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enviar
+	{{ data.type|capitalize }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<div class="card shadow-lg">
+					<div class="card-header bg-success text-white">
+						<h2 class="mb-0">Enviar
+							{{ data.type|capitalize }}</h2>
+					</div>
+					<div class="card-body p-4">
+						<form id="messageForm">
+							<div class="mb-4">
+								<label for="recipient" class="form-label fw-bold">
+									{% if data.type == 'email' %}
+										{% elseif data.type == 'sms' %}
+											Número de telefone
+										{% elseif data.type == 'whatsapp' %}
+											Número WhatsApp
+										{% elseif data.type == 'telegram' %}
+											Chat ID
+									{% endif %}
+								</label>
+								<input type="text" class="form-control form-control-lg" id="recipient" placeholder="Digite o destinatário..." required>
+							</div>
+
+							<div class="mb-4">
+								<label for="content" class="form-label fw-bold">Conteúdo da mensagem</label>
+								<textarea class="form-control" id="content" rows="6" placeholder="Escreva sua mensagem aqui..." required></textarea>
+							</div>
+
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<a href="{{ path('home') }}" class="btn btn-secondary btn-lg">
+									Voltar
+								</a>
+								<button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+									<span class="spinner-border spinner-border-sm me-2 d-none" id="spinner" role="status" aria-hidden="true"></span>
+									Enviar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('messageForm');
+            const recipientInput = document.getElementById('recipient');
+            const contentInput = document.getElementById('content');
+            const charCount = document.getElementById('charCount');
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+            const type = '{{ data.type }}';
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const recipient = recipientInput.value.trim();
+            const content = contentInput.value.trim();
+
+            if (! recipient) {
+                alert('Por favor, preencha o destinatário!');
+                return;
+            }
+
+            if (! content) {
+                alert('Por favor, escreva uma mensagem!');
+                return;
+            }
+
+            spinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+
+            const url = "{{ path('enviar_mensagem', {'type': 'TYPE', 'recipient': 'RECIPIENT', 'content': 'CONTENT'}) }}".replace('TYPE', type).replace('RECIPIENT', btoa(recipient)).replace('CONTENT', btoa(content));
+
+            console.log('Enviando para:', url);
+
+            setTimeout(() => {
+            window.location.href = url;
+            }, 500);
+
+            });
+        });
+	</script>
+{% endblock %}
